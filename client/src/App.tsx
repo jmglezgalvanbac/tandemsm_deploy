@@ -69,7 +69,6 @@ function App() {
       setLoading(true);
       event.preventDefault();
       setOpenDialog(false);
-
       const token = await getToken();
       const endpoint = "http://localhost:3000/clients/add";
       const response = await fetch(endpoint, {

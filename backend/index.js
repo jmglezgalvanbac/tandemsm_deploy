@@ -47,7 +47,11 @@ connection.connect((err) => {
     console.log("Conectado a base datos");
 });
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -78,9 +82,8 @@ app.get('/clients/getAll', authenticateJWT, (req, res) => {
     getClients(connection, (result) => {res.json(result)});
 });
 
-app.post('/clients/add', validationClient(), (req, res) => {
+app.post('/clients/add', authenticateJWT, validationClient(), (req, res) => {
     const newClient = req.body
-    if(newClient.ClientId )
     addClient(connection, newClient, (result) => {res.json(result)});
 });
 
