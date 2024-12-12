@@ -33,7 +33,7 @@ function App() {
       setLoading(true);
       
       const token = await getToken();
-      const endpoint = "http://localhost:3000/clients/getAll";
+      const endpoint = "https://tandemsmbackend.netlify.app/.netlify/functions/server/clients/getAll";
       const response = await fetch(endpoint,{
         method: "GET",
         headers:{
@@ -70,7 +70,7 @@ function App() {
       event.preventDefault();
       setOpenDialog(false);
       const token = await getToken();
-      const endpoint = "http://localhost:3000/clients/add";
+      const endpoint = "https://tandemsmbackend.netlify.app/.netlify/functions/server/clients/add";
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
