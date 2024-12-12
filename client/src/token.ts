@@ -14,7 +14,7 @@ export function hashCode(value:string) {
 
 export async function createToken(username:string, password:string)
 {
-    const response = await fetch('http://localhost:3000/login', {
+    const response = await fetch('https://tandemsmbackend.netlify.app/.netlify/functions/server/login', {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ "username":username, "password":hashCode(password) })
