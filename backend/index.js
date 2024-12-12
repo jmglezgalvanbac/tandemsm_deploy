@@ -31,9 +31,6 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
-const app = express();
-app.use(express.json());
-
 const connection = mysql.createConnection({
     host: process.env.mysql_host,
     user: process.env.mysql_user,
@@ -47,6 +44,8 @@ connection.connect((err) => {
     console.log("Conectado a base datos");
 });
 
+const app = express();
+app.use(express.json());
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
