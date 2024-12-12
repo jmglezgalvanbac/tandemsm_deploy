@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {Client} from './models/client';
 import {getToken} from './token';
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid,GridCellParams } from "@mui/x-data-grid";
 import { Paper } from "@mui/material";
 import {IconButton, Box, Tooltip, Typography, TextField, Dialog, DialogActions, DialogContent, DialogTitle} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -103,20 +103,20 @@ function App() {
     }
   };
 
-  const FilterClients = (event) => {
+  const FilterClients = (event:React.ChangeEvent<HTMLInputElement>) => {
     setTextSearch(event.target.value);
     const query = event.target.value.toLowerCase();
     const data = clients.filter((client:Client) => 
       client.Name.toLowerCase().includes(query) || client.Mobile.toString().includes(query) || client.Email.toString().includes(query)
     || client.Address.toString().includes(query) || client.Country.toString().includes(query) || client.Province.toString().includes(query)
-    || client.Locality.toString().includes(query) || client.DateRegistration.toString().includes(query) 
+    || client.Locality.toString().includes(query)
     || client.Observations.toString().includes(query)
     );
 
     setClientsFiltered(data);
   };
 
-  const RemoveClient = (id) => {    
+  const RemoveClient = (id:number) => {    
 
     const clientToDelete = clients.find((client:Client) => {
       return client.ClientId === id;
@@ -131,7 +131,7 @@ function App() {
     if(clientToDelete) AddClientStorage(clientToDelete);
   };
 
-  const ViewDetailsClient = (id) => {  
+  const ViewDetailsClient = (id:number) => {  
 
     setOpenDialog(true);
     setTitleDialog('Detalles Cliente');
@@ -160,13 +160,13 @@ function App() {
       field: 'Acciones',
       headerName: '',
       minWidth: 100, flex: 0.6,
-      renderCell: (params) => {
+      renderCell: (params:GridCellParams) => {
         return (
           <div style={{display: 'inline' }}>
           <Tooltip title="Ver Detalles" arrow>
           <IconButton
             color="primary"
-            onClick={() => ViewDetailsClient(params.id)}
+            onClick={() => ViewDetailsClient(Number(params.id))}
             aria-label="Ver Detalles"
           >
             <VisibilityIcon  />
@@ -175,7 +175,7 @@ function App() {
           <Tooltip title="Eliminar" arrow>
           <IconButton
             color="error"
-            onClick={() => RemoveClient(params.id)}
+            onClick={() => RemoveClient(Number(params.id))}
             aria-label="Eliminar"
           >
             <DeleteIcon />

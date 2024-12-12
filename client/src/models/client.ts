@@ -1,13 +1,13 @@
 export class Client {
-    ClientId?: number;
+    ClientId: number;
     Name: string;
     Mobile: string;
     Email: string;
-    Address?: string;
-    Country?: string;
-    Province?: string;
-    Locality?: string;
-    Observations?: string;
+    Address: string;
+    Country: string;
+    Province: string;
+    Locality: string;
+    Observations: string;
 
     constructor(
       name: string,
