@@ -1,23 +1,23 @@
 import { jwtDecode } from 'jwt-decode';
 
-String.prototype.hashCode = function() {
+export function hashCode(value:string) {
     var hash = 0,
       i, chr;
-    if (this.length === 0) return hash;
-    for (i = 0; i < this.length; i++) {
-      chr = this.charCodeAt(i);
+    if (value.length === 0) return hash;
+    for (i = 0; i < value.length; i++) {
+      chr = value.charCodeAt(i);
       hash = ((hash << 5) - hash) + chr;
       hash |= 0;
     }
     return hash;
   }
 
-export async function createToken(username, password)
+export async function createToken(username:string, password:string)
 {
     const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ "username":username, "password":password.hashCode() })
+        body: JSON.stringify({ "username":username, "password":hashCode(password) })
       });
       const data = await response.json();
       
@@ -26,13 +26,15 @@ export async function createToken(username, password)
     return data.token;
 }
 
-export function isTokenExpired(token) 
+export function isTokenExpired(token:string) 
 {
     try 
     {
         const decoded = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-        return  decoded.exp < currentTime;
+        const currentTime:number = Date.now() / 1000;
+        if(decoded.exp) return  decoded.exp < currentTime;
+        return true;
+        
     } 
     catch (error) 
     {
@@ -42,7 +44,7 @@ export function isTokenExpired(token)
 
 export async function getToken()
 {
-    let token = localStorage.getItem('jwt_token');
+    let token = localStorage.getItem('jwt_token') ?? "";
     if(isTokenExpired(token))
     {
        const newToken = await createToken('prueba','1234'); 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {Client} from './models/Client';
+import {Client} from './models/client';
 import {getToken} from './token';
 import { DataGrid } from "@mui/x-data-grid";
 import { Paper } from "@mui/material";
